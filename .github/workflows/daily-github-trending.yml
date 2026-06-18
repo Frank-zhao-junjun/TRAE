@@ -32,7 +32,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
 
-    - name: Run scraper
+    - name: Run scraper and sync to IMA
+      env:
+        IMA_CLIENT_ID: ${{ secrets.IMA_CLIENT_ID }}
+        IMA_API_KEY: ${{ secrets.IMA_API_KEY }}
+        IMA_KNOWLEDGE_BASE_ID: ${{ secrets.IMA_KNOWLEDGE_BASE_ID }}
       run: python scripts/github_trending.py
 
     - name: Commit and push
