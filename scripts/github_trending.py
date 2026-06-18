@@ -247,6 +247,15 @@ def main():
     print(f"\n[调试] IMA_CLIENT_ID: {safe_client}")
     print(f"[调试] IMA_API_KEY: {safe_key}")
     print(f"[调试] IMA_KNOWLEDGE_BASE_ID: {safe_kb}")
+    
+    # 检查必要的 IMA 凭证是否设置
+    if not IMA_CLIENT_ID or not IMA_API_KEY or not IMA_KNOWLEDGE_BASE_ID:
+        print("\n❌ 错误: IMA 凭证未设置。请检查 GitHub Secrets 配置:")
+        print("   - IMA_CLIENT_ID")
+        print("   - IMA_API_KEY")
+        print("   - IMA_KNOWLEDGE_BASE_ID")
+        print("\n请访问: https://github.com/Frank-zhao-junjun/TRAE/settings/secrets/actions")
+        sys.exit(1)
 
     # 1. 抓取 GitHub Trending
     print("\n[1/3] 正在抓取 GitHub Trending...")
