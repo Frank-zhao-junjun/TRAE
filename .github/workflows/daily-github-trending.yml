@@ -49,5 +49,7 @@ jobs:
           echo "没有新的变更，跳过提交"
         else
           git commit -m "docs: update GitHub trending $(date +%Y-%m-%d)"
+          # 先拉取远程更新避免冲突
+          git pull --rebase origin main || git pull origin main
           git push
         fi

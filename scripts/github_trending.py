@@ -240,10 +240,13 @@ def main():
     print(f"执行时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
     
-    # 调试：检查环境变量
-    print(f"\n[调试] IMA_CLIENT_ID: {'已设置' if IMA_CLIENT_ID else '未设置'}")
-    print(f"[调试] IMA_API_KEY: {'已设置' if IMA_API_KEY else '未设置'}")
-    print(f"[调试] IMA_KNOWLEDGE_BASE_ID: {'已设置' if IMA_KNOWLEDGE_BASE_ID else '未设置'}")
+    # 调试：检查环境变量（安全打印，只显示前8位）
+    safe_client = IMA_CLIENT_ID[:8] + "..." if IMA_CLIENT_ID and len(IMA_CLIENT_ID) > 8 else (IMA_CLIENT_ID or "未设置")
+    safe_key = IMA_API_KEY[:8] + "..." if IMA_API_KEY and len(IMA_API_KEY) > 8 else ("未设置" if not IMA_API_KEY else IMA_API_KEY)
+    safe_kb = IMA_KNOWLEDGE_BASE_ID[:8] + "..." if IMA_KNOWLEDGE_BASE_ID and len(IMA_KNOWLEDGE_BASE_ID) > 8 else (IMA_KNOWLEDGE_BASE_ID or "未设置")
+    print(f"\n[调试] IMA_CLIENT_ID: {safe_client}")
+    print(f"[调试] IMA_API_KEY: {safe_key}")
+    print(f"[调试] IMA_KNOWLEDGE_BASE_ID: {safe_kb}")
 
     # 1. 抓取 GitHub Trending
     print("\n[1/3] 正在抓取 GitHub Trending...")
@@ -285,6 +288,9 @@ def main():
         print(f"\n⚠️ Markdown 文件已生成，但写入 IMA 知识库失败")
 
     print("=" * 60)
+    
+    # 无论 IMA 写入是否成功，都返回文件路径
+    # 这样 GitHub Actions 可以继续执行 git commit
     return file_path
 
 
